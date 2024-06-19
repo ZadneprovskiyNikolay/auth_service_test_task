@@ -1,0 +1,27 @@
+services:
+  db:
+    container_name: auth_postgres
+    image: postgres:16
+    restart: on-failure
+    ports:
+      - ${DB_PORT}:5432
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: auth
+    volumes:
+      - ./migrations/postgres/init_up.sql:/docker-entrypoint-initdb.d/1-init_up.sql
+
+  server:
+    container_name: auth_server
+    build:
+      context: ..
+    restart: always
+    env_file: .env
+    environment:
+      CONFIG_PATH: ${CONFIG_PATH}
+      DB_HOST: db
+    ports:
+      - ${HTTP_SERVER_PORT}:${HTTP_SERVER_PORT}
+    depends_on:
+      - db

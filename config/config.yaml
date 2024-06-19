@@ -1,0 +1,16 @@
+env: local
+http_server:
+  address: 0.0.0.0:8080
+  timeout: 4s
+db:
+  port: 5432
+  db_name: auth
+  ssl_mode: disable
+smtp:
+  host: smtp.company.com
+  port: 587
+emails:
+  support_email: support@company.com
+auth:
+  access_token_duration: 12h
+  refresh_token_duration: 168h
